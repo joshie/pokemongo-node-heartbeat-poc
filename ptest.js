@@ -2,12 +2,13 @@ var pcomm = require('./lib/pokegocomm');
 
 var username = process.env.USERNAME || 'fake';
 var password = process.env.PASSWORD || 'fake';
+var latitude = parseFloat(process.env.LATITUDE) || 40.759011;
+var longitude = parseFloat(process.env.LONGITUDE) || -73.984472;
 
 var playerInfo = {
   'accessToken': '',
-  'debug': true,
-  'latitude': 33.7885946,
-  'longitude': -84.3691011,
+  'latitude': latitude,
+  'longitude': longitude,
   'altitude': 0,
   'locationName': '',
   'apiEndpoint': '',
@@ -28,7 +29,7 @@ pcomm.ptcLogin(playerInfo,function(err,token){
       console.log('got profile and authticket');
       setInterval(function() {
         pcomm.getMapObjects(playerInfo,function(err,data) {
-          if(err) {return console.log(err)}
+          if(err) {console.log(err); console.log('will try again')}
           if( data.map_objects.map_cells ) {
             console.log('Pokemon Data:');
             data.map_objects.map_cells.forEach(function(cell) {

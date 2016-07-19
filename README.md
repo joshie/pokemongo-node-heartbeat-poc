@@ -1,8 +1,7 @@
 # pokemongo-node-heartbeat-poc
 
 How to run test:
-USERNAME=ptcusername PASSWORD=ptcpassword ./runme.bash
-
+LATITUDE=thelatitude LONGITUDE=thelongitude USERNAME=ptcusername PASSWORD=ptcpassword ./runme.bash
 
 It will download node 0.10.46 for your platform (this is required for node-s2 currently)
 it will compile node-s2
