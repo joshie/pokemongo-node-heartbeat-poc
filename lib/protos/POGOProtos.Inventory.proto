@@ -1,0 +1,214 @@
+syntax = "proto3";
+import public "POGOProtos.Data.proto";
+import public "POGOProtos.Player.proto";
+package POGOProtos.Inventory;
+
+
+message AppliedItem {
+  POGOProtos.Inventory.ItemType item_type = 1;
+  POGOProtos.Inventory.ItemTypeCategory item_type_category = 2;
+  int64 expire_ms = 3;
+  int64 applied_ms = 4;
+}
+
+message AppliedItems {
+  POGOProtos.Inventory.AppliedItem item = 4;
+}
+
+message EggIncubator {
+  string item_id = 1;
+  POGOProtos.Inventory.ItemType item_type = 2;
+  POGOProtos.Inventory.EggIncubatorType incubator_type = 3;
+  int32 uses_remaining = 4;
+  int64 pokemon_id = 5; // TODO: Check if is PokemonType
+  double start_km_walked = 6;
+  double target_km_walked = 7;
+}
+
+message EggIncubators {
+  POGOProtos.Inventory.EggIncubator egg_incubator = 1;
+}
+enum EggIncubatorType {
+  INCUBATOR_UNSET = 0;
+  INCUBATOR_DISTANCE = 1;
+}
+
+message InventoryDelta {
+  int64 original_timestamp_ms = 1;
+  int64 new_timestamp_ms = 2;
+  repeated POGOProtos.Inventory.InventoryItem inventory_items = 3;
+}
+
+message InventoryItem {
+  int64 modified_timestamp_ms = 1;
+  int64 deleted_item_key = 2;
+  POGOProtos.Inventory.InventoryItemData inventory_item_data = 3;
+}
+
+message InventoryItemData {
+  POGOProtos.Data.Pokemon pokemon = 1;
+  POGOProtos.Inventory.Item item = 2;
+  POGOProtos.Data.PokedexEntry pokedex_entry = 3;
+  POGOProtos.Player.PlayerStats player_stats = 4;
+  POGOProtos.Player.PlayerCurrency player_currency = 5;
+  POGOProtos.Player.PlayerCamera player_camera = 6;
+  POGOProtos.Inventory.InventoryUpgrades inventory_upgrades = 7;
+  POGOProtos.Inventory.AppliedItems applied_items = 8;
+  POGOProtos.Inventory.EggIncubators egg_incubators = 9;
+  POGOProtos.Inventory.PokemonFamily pokemon_family = 10;
+}
+
+message InventoryUpgrade {
+  POGOProtos.Inventory.ItemType item = 1;
+  POGOProtos.Inventory.InventoryUpgradeType upgrade_type = 2;
+  int32 additional_storage = 3;
+}
+
+message InventoryUpgrades {
+  repeated InventoryUpgrade inventory_upgrades = 1;
+}
+enum InventoryUpgradeType {
+  UPGRADE_UNSET = 0;
+  INCREASE_ITEM_STORAGE = 1;
+  INCREASE_POKEMON_STORAGE = 2;
+}
+
+message Item {
+  POGOProtos.Inventory.ItemType item = 1;
+  int32 count = 2;
+  bool unseen = 3;
+}
+enum ItemType {
+  ITEM_UNKNOWN = 0;
+  ITEM_POKE_BALL = 1;
+  ITEM_GREAT_BALL = 2;
+  ITEM_ULTRA_BALL = 3;
+  ITEM_MASTER_BALL = 4;
+  ITEM_POTION = 101;
+  ITEM_SUPER_POTION = 102;
+  ITEM_HYPER_POTION = 103;
+  ITEM_MAX_POTION = 104;
+  ITEM_REVIVE = 201;
+  ITEM_MAX_REVIVE = 202;
+  ITEM_LUCKY_EGG = 301;
+  ITEM_INCENSE_ORDINARY = 401;
+  ITEM_INCENSE_SPICY = 402;
+  ITEM_INCENSE_COOL = 403;
+  ITEM_INCENSE_FLORAL = 404;
+  ITEM_TROY_DISK = 501;
+  ITEM_X_ATTACK = 602;
+  ITEM_X_DEFENSE = 603;
+  ITEM_X_MIRACLE = 604;
+  ITEM_RAZZ_BERRY = 701;
+  ITEM_BLUK_BERRY = 702;
+  ITEM_NANAB_BERRY = 703;
+  ITEM_WEPAR_BERRY = 704;
+  ITEM_PINAP_BERRY = 705;
+  ITEM_SPECIAL_CAMERA = 801;
+  ITEM_INCUBATOR_BASIC_UNLIMITED = 901;
+  ITEM_INCUBATOR_BASIC = 902;
+  ITEM_POKEMON_STORAGE_UPGRADE = 1001;
+  ITEM_ITEM_STORAGE_UPGRADE = 1002;
+}
+enum ItemTypeCategory {
+  ITEM_TYPE_NONE = 0;
+  ITEM_TYPE_POKEBALL = 1;
+  ITEM_TYPE_POTION = 2;
+  ITEM_TYPE_REVIVE = 3;
+  ITEM_TYPE_MAP = 4;
+  ITEM_TYPE_BATTLE = 5;
+  ITEM_TYPE_FOOD = 6;
+  ITEM_TYPE_CAMERA = 7;
+  ITEM_TYPE_DISK = 8;
+  ITEM_TYPE_INCUBATOR = 9;
+  ITEM_TYPE_INCENSE = 10;
+  ITEM_TYPE_XP_BOOST = 11;
+  ITEM_TYPE_INVENTORY_UPGRADE = 12;
+}
+
+message PokemonFamily {
+  POGOProtos.Inventory.PokemonFamilyId family_id = 1;
+  int32 candy = 2;
+}
+enum PokemonFamilyId {
+  FAMILY_UNSET = 0;
+  FAMILY_BULBASAUR = 1;
+  FAMILY_CHARMANDER = 4;
+  FAMILY_SQUIRTLE = 7;
+  FAMILY_CATERPIE = 10;
+  FAMILY_WEEDLE = 13;
+  FAMILY_PIDGEY = 16;
+  FAMILY_RATTATA = 19;
+  FAMILY_SPEAROW = 21;
+  FAMILY_EKANS = 23;
+  FAMILY_PIKACHU = 25;
+  FAMILY_SANDSHREW = 27;
+  FAMILY_NIDORAN = 29;
+  FAMILY_NIDORAN2 = 32;
+  FAMILY_CLEFAIRY = 35;
+  FAMILY_VULPIX = 37;
+  FAMILY_JIGGLYPUFF = 39;
+  FAMILY_ZUBAT = 41;
+  FAMILY_ODDISH = 43;
+  FAMILY_PARAS = 46;
+  FAMILY_VENONAT = 48;
+  FAMILY_DIGLETT = 50;
+  FAMILY_MEOWTH = 52;
+  FAMILY_PSYDUCK = 54;
+  FAMILY_MANKEY = 56;
+  FAMILY_GROWLITHE = 58;
+  FAMILY_POLIWAG = 60;
+  FAMILY_ABRA = 63;
+  FAMILY_MACHOP = 66;
+  FAMILY_BELLSPROUT = 69;
+  FAMILY_TENTACOOL = 72;
+  FAMILY_GEODUDE = 74;
+  FAMILY_PONYTA = 77;
+  FAMILY_SLOWPOKE = 79;
+  FAMILY_MAGNEMITE = 81;
+  FAMILY_FARFETCHD = 83;
+  FAMILY_DODUO = 84;
+  FAMILY_SEEL = 86;
+  FAMILY_GRIMER = 88;
+  FAMILY_SHELLDER = 90;
+  FAMILY_GASTLY = 92;
+  FAMILY_ONIX = 95;
+  FAMILY_DROWZEE = 96;
+  FAMILY_KRABBY = 98;
+  FAMILY_VOLTORB = 100;
+  FAMILY_EXEGGCUTE = 102;
+  FAMILY_CUBONE = 104;
+  FAMILY_HITMONLEE = 106;
+  FAMILY_HITMONCHAN = 107;
+  FAMILY_LICKITUNG = 108;
+  FAMILY_KOFFING = 109;
+  FAMILY_RHYHORN = 111;
+  FAMILY_CHANSEY = 113;
+  FAMILY_TANGELA = 114;
+  FAMILY_KANGASKHAN = 115;
+  FAMILY_HORSEA = 116;
+  FAMILY_GOLDEEN = 118;
+  FAMILY_STARYU = 120;
+  FAMILY_MR_MIME = 122;
+  FAMILY_SCYTHER = 123;
+  FAMILY_JYNX = 124;
+  FAMILY_ELECTABUZZ = 125;
+  FAMILY_MAGMAR = 126;
+  FAMILY_PINSIR = 127;
+  FAMILY_TAUROS = 128;
+  FAMILY_MAGIKARP = 129;
+  FAMILY_LAPRAS = 131;
+  FAMILY_DITTO = 132;
+  FAMILY_EEVEE = 133;
+  FAMILY_PORYGON = 137;
+  FAMILY_OMANYTE = 138;
+  FAMILY_KABUTO = 140;
+  FAMILY_AERODACTYL = 142;
+  FAMILY_SNORLAX = 143;
+  FAMILY_ARTICUNO = 144;
+  FAMILY_ZAPDOS = 145;
+  FAMILY_MOLTRES = 146;
+  FAMILY_DRATINI = 147;
+  FAMILY_MEWTWO = 150;
+  FAMILY_MEW = 151;
+}

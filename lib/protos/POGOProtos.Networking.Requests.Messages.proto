@@ -1,0 +1,60 @@
+syntax = "proto3";
+package POGOProtos.Networking.Requests.Messages;
+
+message CatchPokemonMessage {
+  fixed64 encounter_id = 1;
+  int32 pokeball = 2;
+  double normalized_reticle_size = 3;
+  string spawn_point_guid = 4;
+  bool hit_pokemon = 5;
+  double spin_modifier = 6;
+  double NormalizedHitPosition = 7;
+}
+message CheckAwardedBadgesMessage {
+	// No message needed.
+}
+message DownloadSettingsMessage {
+  string hash = 1;
+}
+
+message EvolvePokemonMessage {
+  fixed64 pokemon_id = 1;
+}
+
+message FortDetailsMessage {
+  string fort_id = 1;
+  double latitude = 2;
+  double longitude = 3;
+}
+message FortSearchMessage {
+  string fort_id = 1;
+  double player_latitude = 2;
+  double player_longitude = 3;
+  double fort_latitude = 4;
+  double fort_longitude = 5;
+}
+message GetHatchedEggsMessage {
+	// No message needed.
+}
+message GetInventoryMessage {
+  int64 last_timestamp_ms = 1;
+  int32 item_been_seen = 2; // TODO: Find out what this is.
+}
+
+message GetMapObjectsMessage {
+  repeated uint64 cell_id = 1 [packed=true];
+  repeated int64 since_timestamp_ms = 2 [packed=true];
+  double latitude = 3;
+  double longitude = 4;
+}
+
+message GetPlayerMessage {
+	// No message needed.
+}
+message PlayerUpdateMessage {
+  double latitude = 1;
+  double longitude = 2;
+}
+message ReleasePokemonMessage {
+  fixed64 pokemon_id = 1;
+}

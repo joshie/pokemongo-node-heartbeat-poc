@@ -1,0 +1,28 @@
+syntax = "proto3";
+package POGOProtos;
+import public "POGOProtos.Data.proto";
+import public "POGOProtos.Enums.proto";
+import public "POGOProtos.Inventory.proto";
+import public "POGOProtos.Map.Fort.proto";
+import public "POGOProtos.Map.Pokemon.proto";
+import public "POGOProtos.Map.proto";
+import public "POGOProtos.Networking.Requests.Messages.proto";
+import public "POGOProtos.Networking.Requests.proto";
+import public "POGOProtos.Networking.Responses.proto";
+import public "POGOProtos.Networking.proto";
+import public "POGOProtos.Player.proto";
+import public "POGOProtos.Settings.proto";
+
+message LocalPlayer {
+  int64 creation_timestamp_ms  = 1;
+  string username = 2;
+  int32 team = 5;
+  POGOProtos.Enums.TutorialState tutorial_state = 7;
+  POGOProtos.Player.AvatarDetails avatar_details = 8;
+  int32 max_pokemon_storage = 9;
+  int32 max_item_storage = 10;
+  POGOProtos.Player.DailyBonus daily_bonus = 11;
+  POGOProtos.Player.EquippedBadge equipped_badge = 12;
+  POGOProtos.Player.ContactSettings contact_settings = 13;
+  repeated POGOProtos.Player.Currency currencies = 14;
+}

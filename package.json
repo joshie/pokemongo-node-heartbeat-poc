@@ -1,0 +1,21 @@
+{
+  "author": {
+    "name": "Josh Lohrman"
+  },
+  "name": "pokemongo-node-heartbeat-poc",
+  "description": "pokemongo-node-heartbeat-poc",
+  "version": "0.0.8",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joshie/pokemongo-node-heartbeat-poc.git"
+  },
+  "engines": {
+    "node": "0.10.x"
+  },
+  "dependencies": {
+    "request":        "",
+    "s2":             "",
+    "protobufjs":     ""
+  }
+}

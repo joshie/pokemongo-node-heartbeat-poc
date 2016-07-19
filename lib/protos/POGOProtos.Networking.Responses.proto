@@ -1,0 +1,152 @@
+syntax = "proto3";
+import public "POGOProtos.Map.Pokemon.proto";
+import public "POGOProtos.Inventory.proto";
+import public "POGOProtos.Data.proto";
+import public "POGOProtos.Settings.proto";
+import public "POGOProtos.Map.proto";
+import public "POGOProtos.Enums.proto";
+import public "POGOProtos.Map.Fort.proto";
+package POGOProtos.Networking.Responses;
+
+message LocalPlayer {
+  int64 creation_timestamp_ms  = 1;
+  string username = 2;
+  int32 team = 5;
+  //broken POGOProtos.Enums.TutorialState tutorial_state = 7;
+  bytes tutorial_state = 7;
+  POGOProtos.Player.AvatarDetails avatar_details = 8;
+  int32 max_pokemon_storage = 9;
+  int32 max_item_storage = 10;
+  POGOProtos.Player.DailyBonus daily_bonus = 11;
+  POGOProtos.Player.EquippedBadge equipped_badge = 12;
+  POGOProtos.Player.ContactSettings contact_settings = 13;
+  repeated POGOProtos.Player.Currency currencies = 14;
+}
+
+
+message CatchPokemonResponse {
+  POGOProtos.Networking.Responses.CatchPokemonResponse.CatchStatus status = 1;
+  double miss_percent = 2;
+  uint64 captured_pokemon_id = 3;
+  POGOProtos.Data.CaptureScore scores = 4;
+
+  enum CatchStatus {
+    CATCH_ERROR = 0;
+    CATCH_SUCCESS = 1;
+    CATCH_ESCAPE = 2;
+    CATCH_FLEE = 3;
+    CATCH_MISSED = 4;
+  }
+}
+
+// Confirm if this is correct, I think that it should be "repeated AwardedBadge awarded_badges" or something like that.
+message CheckAwardedBadgesResponse {
+  bool success = 1;
+  repeated POGOProtos.Enums.BadgeType awarded_badges = 2;
+  repeated int32 awarded_badge_levels = 3;
+}
+
+message DownloadSettingsResponse {
+  string error = 1;
+  string hash = 2;
+  POGOProtos.Settings.GlobalSettings settings = 3;
+}
+
+message EvolvePokemonResponse {
+  POGOProtos.Networking.Responses.EvolvePokemonResponse.Result result = 1;
+  POGOProtos.Data.Pokemon evolved_pokemon = 2;
+  int32 experience_awarded = 3;
+  int32 candy_awarded = 4;
+
+  enum Result {
+    UNSET = 0;
+    SUCCESS = 1;
+    FAILED_POKEMON_MISSING = 2;
+    FAILED_INSUFFICIENT_RESOURCES = 3;
+    FAILED_POKEMON_CANNOT_EVOLVE = 4;
+    FAILED_POKEMON_IS_DEPLOYED = 5;
+  }
+}
+
+
+message FortDetailsResponse {
+  string fort_id = 1;
+  POGOProtos.Enums.TeamColor team_color = 2;
+  POGOProtos.Data.Pokemon pokemon = 3;
+  string name = 4;
+  repeated string image_urls = 5;
+  int32 fp = 6;
+  int32 stamina = 7;
+  int32 max_stamina = 8;
+  POGOProtos.Map.Fort.FortType type = 9;
+  double latitude = 10;
+  double longitude = 11;
+  string description = 12;
+  repeated POGOProtos.Map.Fort.FortModifier modifiers = 13;
+}
+
+message FortSearchResponse {
+  POGOProtos.Networking.Responses.FortSearchResponse.Result result = 1;
+  repeated POGOProtos.Networking.Responses.FortSearchResponse.ItemAward items_awarded = 2;
+  int32 gems_awarded = 3;
+  POGOProtos.Data.Pokemon pokemon_egg = 4;
+  int32 experience_awarded = 5;
+  int64 cooldown_complete_timestamp_ms = 6;
+  int32 chain_hack_sequence_number = 7;
+
+  message ItemAward {
+    POGOProtos.Inventory.ItemType item_type = 1;
+    int32 item_count = 2;
+  }
+
+  enum Result {
+    NO_RESULT_SET = 0;
+    SUCCESS = 1;
+    OUT_OF_RANGE = 2;
+    IN_COOLDOWN_PERIOD = 3;
+    INVENTORY_FULL = 4;
+  }
+}
+// Confirm if this is correct, I think that it should be "repeated HatchedEgg hatched_eggs" or something like that.
+message GetHatchedEggsResponse {
+  bool success = 1;
+  repeated uint64 pokemon_id = 2 [packed=true]; // Might be POGOProtos.Enums.PokemonType
+  repeated int32 experience_awarded = 3;
+  repeated int32 candy_awarded = 4;
+  repeated int32 stardust_awarded = 5;
+}
+
+message GetInventoryResponse {
+  bool success = 1;
+  POGOProtos.Inventory.InventoryDelta inventory_delta = 2;
+}
+
+message GetMapObjectsResponse {
+  repeated POGOProtos.Map.MapCell map_cells = 1;
+  POGOProtos.Map.MapObjectsStatus status = 2;
+}
+
+
+message GetPlayerResponse {
+  uint32 unknown1 = 1;
+  LocalPlayer local_player = 2;
+}
+
+
+message PlayerUpdateResponse {
+  repeated POGOProtos.Map.Pokemon.WildPokemon wild_pokemons = 1;
+  repeated POGOProtos.Map.Fort.FortData forts = 2;
+  int32 forts_nearby = 3;
+}
+message ReleasePokemonResponse {
+  POGOProtos.Networking.Responses.ReleasePokemonResponse.Result result = 1;
+  int32 candy_awarded = 2;
+
+  enum Result {
+    UNSET = 0;
+    SUCCESS = 1;
+    POKEMON_DEPLOYED = 2;
+    FAILED = 3;
+    ERROR_POKEMON_IS_EGG = 4;
+  }
+}
